@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Matemáticas Divertidas! 🎮</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       PANTALLA 1: SELECCIÓN DE JUGADOR
+  ══════════════════════════════════════════ -->
+  <div id="screen-player" class="screen active">
+    <div class="player-select-container">
+      <h1 class="main-title">🎮 ¡Matemáticas Divertidas!</h1>
+      <p class="subtitle">¿Quién va a jugar hoy?</p>
+      <div class="player-cards">
+
+        <!-- Tarjeta Lucía -->
+        <div class="player-card lucia-card" onclick="selectPlayer('lucia')">
+          <div class="player-avatar" id="lucia-avatar">
+            <div class="avatar-placeholder lucia-placeholder">
+              <span class="avatar-emoji">🌸</span>
+            </div>
+            <img id="lucia-img" src="" alt="Lucía" class="avatar-img hidden" />
+          </div>
+          <div class="player-name lucia-name">Lucía</div>
+          <div class="player-hint">¡Toca para jugar!</div>
+          <label class="upload-label lucia-upload" onclick="event.stopPropagation()" title="Cambiar foto">
+            📷
+            <input type="file" accept="image/*" onchange="uploadAvatar('lucia', this)" />
+          </label>
+        </div>
+
+        <!-- Tarjeta Gabo -->
+        <div class="player-card gabo-card" onclick="selectPlayer('gabo')">
+          <div class="player-avatar" id="gabo-avatar">
+            <div class="avatar-placeholder gabo-placeholder">
+              <span class="avatar-emoji">⚽</span>
+            </div>
+            <img id="gabo-img" src="" alt="Gabo" class="avatar-img hidden" />
+          </div>
+          <div class="player-name gabo-name">Gabo</div>
+          <div class="player-hint">¡Toca para jugar!</div>
+          <label class="upload-label gabo-upload" onclick="event.stopPropagation()" title="Cambiar foto">
+            📷
+            <input type="file" accept="image/*" onchange="uploadAvatar('gabo', this)" />
+          </label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PANTALLA 2: SELECCIÓN DE OPERACIÓN Y TIEMPO
+  ══════════════════════════════════════════ -->
+  <div id="screen-setup" class="screen">
+    <div class="setup-container">
+
+      <div class="setup-header">
+        <button class="back-btn" onclick="goBack('screen-player')">← Atrás</button>
+        <div class="setup-player-info">
+          <img id="setup-avatar" src="" class="setup-avatar-img hidden" />
+          <span id="setup-emoji" class="setup-emoji"></span>
+          <span id="setup-name" class="setup-player-name"></span>
+        </div>
+      </div>
+
+      <h2 class="setup-title">¿Qué quieres practicar?</h2>
+
+      <div class="operation-grid">
+        <button class="op-btn" data-op="suma" onclick="selectOperation('suma')">
+          <span class="op-icon">➕</span>
+          <span class="op-label">Suma</span>
+        </button>
+        <button class="op-btn" data-op="resta" onclick="selectOperation('resta')">
+          <span class="op-icon">➖</span>
+          <span class="op-label">Resta</span>
+        </button>
+        <button class="op-btn" data-op="multiplicacion" onclick="selectOperation('multiplicacion')">
+          <span class="op-icon">✖️</span>
+          <span class="op-label">Multiplicación</span>
+        </button>
+        <button class="op-btn" data-op="division" onclick="selectOperation('division')">
+          <span class="op-icon">➗</span>
+          <span class="op-label">División</span>
+        </button>
+      </div>
+
+      <h2 class="setup-title">¿Cuánto tiempo quieres jugar?</h2>
+
+      <div class="time-grid">
+        <button class="time-btn" data-time="60" onclick="selectTime(60)">1 min</button>
+        <button class="time-btn" data-time="120" onclick="selectTime(120)">2 min</button>
+        <button class="time-btn" data-time="180" onclick="selectTime(180)">3 min</button>
+        <button class="time-btn" data-time="300" onclick="selectTime(300)">5 min</button>
+      </div>
+
+      <button id="start-btn" class="start-btn disabled" onclick="startGame()">
+        ¡Empezar! 🚀
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PANTALLA 3: JUEGO
+  ══════════════════════════════════════════ -->
+  <div id="screen-game" class="screen">
+    <div class="game-container">
+
+      <!-- HUD Superior -->
+      <div class="game-hud">
+        <div class="hud-left">
+          <img id="game-avatar" src="" class="hud-avatar-img hidden" />
+          <span id="game-emoji" class="hud-emoji"></span>
+          <span id="game-name" class="hud-name"></span>
+        </div>
+        <div class="hud-center">
+          <div class="timer-display">
+            <span class="timer-icon">⏱</span>
+            <span id="timer-display">00:00</span>
+          </div>
+        </div>
+        <div class="hud-right">
+          <div class="score-display">
+            <span class="score-icon">⭐</span>
+            <span id="score-display">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Área de operación -->
+      <div class="operation-area">
+        <div class="difficulty-badge" id="difficulty-badge">Nivel 1</div>
+        <div class="operation-card" id="operation-card">
+          <div class="operation-text" id="operation-text">¿Cuánto es?</div>
+        </div>
+
+        <!-- Feedback flash (respuesta correcta) -->
+        <div class="correct-answer-flash" id="correct-flash">
+          <span id="correct-answer-text"></span>
+        </div>
+
+        <!-- Input de respuesta -->
+        <div class="answer-area">
+          <input
+            type="number"
+            id="answer-input"
+            class="answer-input"
+            placeholder="Tu respuesta..."
+            min="0"
+            autocomplete="off"
+          />
+          <button class="submit-btn" onclick="checkAnswer()">✓</button>
+        </div>
+
+        <!-- Feedback visual -->
+        <div class="feedback-popup" id="feedback-popup"></div>
+      </div>
+
+      <!-- Streak y racha -->
+      <div class="streak-area">
+        <span id="streak-display" class="streak"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       PANTALLA 4: RESULTADOS
+  ══════════════════════════════════════════ -->
+  <div id="screen-results" class="screen">
+    <div class="results-container">
+      <div class="results-header">
+        <img id="results-avatar" src="" class="results-avatar-img hidden" />
+        <span id="results-emoji" class="results-emoji"></span>
+      </div>
+      <h2 class="results-title">¡Tiempo terminado! 🎉</h2>
+      <div id="results-name" class="results-player-name"></div>
+
+      <div class="results-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="res-score">0</div>
+          <div class="stat-label">Puntos ⭐</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="res-correct">0</div>
+          <div class="stat-label">Correctas ✅</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="res-wrong">0</div>
+          <div class="stat-label">Errores ❌</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="res-streak">0</div>
+          <div class="stat-label">Mejor racha 🔥</div>
+        </div>
+      </div>
+
+      <div class="results-message" id="results-message"></div>
+
+      <div class="results-actions">
+        <button class="results-btn primary-btn" onclick="playAgain()">¡Jugar otra vez! 🔄</button>
+        <button class="results-btn secondary-btn" onclick="goBack('screen-player')">Cambiar jugador 👥</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
