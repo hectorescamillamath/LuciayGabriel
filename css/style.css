@@ -1,0 +1,1014 @@
+/* ══════════════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════════════ */
+:root {
+  --lucia-primary: #c084fc;
+  --lucia-secondary: #f0abfc;
+  --lucia-accent: #f9a8d4;
+  --lucia-light: #fdf4ff;
+  --lucia-dark: #7e22ce;
+  --lucia-btn: #e879f9;
+  --lucia-success: #d946ef;
+  --lucia-card: #fae8ff;
+
+  --gabo-primary: #3b82f6;
+  --gabo-secondary: #22c55e;
+  --gabo-accent: #facc15;
+  --gabo-red: #ef4444;
+  --gabo-light: #eff6ff;
+  --gabo-dark: #1d4ed8;
+  --gabo-btn: #f97316;
+  --gabo-success: #16a34a;
+  --gabo-card: #dbeafe;
+
+  --neutral-bg: #f8fafc;
+  --white: #ffffff;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.16);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+
+  /* Activo por defecto: ninguno */
+  --p: var(--lucia-primary);
+  --p2: var(--lucia-secondary);
+  --pa: var(--lucia-accent);
+  --pl: var(--lucia-light);
+  --pd: var(--lucia-dark);
+  --pbtn: var(--lucia-btn);
+  --pcard: var(--lucia-card);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  background: var(--neutral-bg);
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════════
+   TEMAS POR JUGADOR (aplicado al body)
+══════════════════════════════════════════════ */
+body.theme-lucia {
+  --p: var(--lucia-primary);
+  --p2: var(--lucia-secondary);
+  --pa: var(--lucia-accent);
+  --pl: var(--lucia-light);
+  --pd: var(--lucia-dark);
+  --pbtn: var(--lucia-btn);
+  --pcard: var(--lucia-card);
+  background: linear-gradient(135deg, #fdf4ff 0%, #fce7f3 50%, #f3e8ff 100%);
+}
+
+body.theme-gabo {
+  --p: var(--gabo-primary);
+  --p2: var(--gabo-secondary);
+  --pa: var(--gabo-accent);
+  --pl: var(--gabo-light);
+  --pd: var(--gabo-dark);
+  --pbtn: var(--gabo-btn);
+  --pcard: var(--gabo-card);
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 50%, #fefce8 100%);
+}
+
+/* ══════════════════════════════════════════════
+   PANTALLAS
+══════════════════════════════════════════════ */
+.screen {
+  display: none;
+  min-height: 100vh;
+  animation: fadeIn 0.4s ease;
+}
+
+.screen.active {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 0;
+  min-height: 100vh;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════
+   PANTALLA 1 — SELECCIÓN DE JUGADOR
+══════════════════════════════════════════════ */
+.player-select-container {
+  text-align: center;
+  padding: 40px 20px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.main-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #4b1e8c;
+  margin-bottom: 8px;
+  text-shadow: 2px 3px 0 rgba(196,120,220,0.3);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #6b7280;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+.player-cards {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.player-card {
+  position: relative;
+  width: 220px;
+  padding: 32px 24px 24px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s;
+  border: 3px solid transparent;
+}
+
+.lucia-card {
+  background: linear-gradient(145deg, #fae8ff, #fce7f3);
+  border-color: #e879f9;
+  box-shadow: 0 6px 24px rgba(232,121,249,0.25);
+}
+
+.lucia-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 16px 40px rgba(232,121,249,0.35);
+}
+
+.gabo-card {
+  background: linear-gradient(145deg, #dbeafe, #dcfce7);
+  border-color: #3b82f6;
+  box-shadow: 0 6px 24px rgba(59,130,246,0.25);
+}
+
+.gabo-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 16px 40px rgba(59,130,246,0.35);
+}
+
+.player-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lucia-placeholder {
+  background: linear-gradient(135deg, #f0abfc, #f9a8d4);
+}
+
+.gabo-placeholder {
+  background: linear-gradient(135deg, #93c5fd, #6ee7b7);
+}
+
+.avatar-emoji {
+  font-size: 3rem;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.hidden { display: none !important; }
+
+.player-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+}
+
+.lucia-name { color: #9333ea; }
+.gabo-name  { color: #1d4ed8; }
+
+.player-hint {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.upload-label {
+  position: absolute;
+  bottom: 68px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  font-size: 1rem;
+  transition: transform 0.2s;
+  border: 2px solid #e5e7eb;
+}
+
+.upload-label:hover { transform: scale(1.15); }
+.upload-label input { display: none; }
+
+/* ══════════════════════════════════════════════
+   PANTALLA 2 — CONFIGURACIÓN
+══════════════════════════════════════════════ */
+.setup-container {
+  width: 100%;
+  max-width: 600px;
+  padding: 32px 20px;
+}
+
+.setup-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.back-btn {
+  background: white;
+  border: 2px solid var(--p);
+  color: var(--pd);
+  border-radius: var(--radius-xs);
+  padding: 8px 16px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: var(--pcard);
+  transform: translateX(-3px);
+}
+
+.setup-player-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.setup-avatar-img, .hud-avatar-img, .results-avatar-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--p);
+}
+
+.setup-emoji, .hud-emoji, .results-emoji {
+  font-size: 1.8rem;
+}
+
+.setup-player-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  color: var(--pd);
+}
+
+.setup-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  color: var(--pd);
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
+
+/* Grid operaciones */
+.operation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.op-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px;
+  background: white;
+  border: 3px solid #e5e7eb;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--shadow-sm);
+}
+
+.op-btn:hover {
+  border-color: var(--p);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.op-btn.selected {
+  background: var(--pcard);
+  border-color: var(--p);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.op-icon { font-size: 1.8rem; }
+.op-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.op-btn.selected .op-label { color: var(--pd); }
+
+/* Grid tiempo */
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.time-btn {
+  padding: 14px 8px;
+  background: white;
+  border: 3px solid #e5e7eb;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  color: #374151;
+  transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--shadow-sm);
+}
+
+.time-btn:hover {
+  border-color: var(--p);
+  transform: translateY(-3px);
+}
+
+.time-btn.selected {
+  background: var(--pcard);
+  border-color: var(--p);
+  color: var(--pd);
+  transform: translateY(-2px);
+}
+
+/* Botón empezar */
+.start-btn {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, var(--p), var(--pbtn));
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  letter-spacing: 0.5px;
+}
+
+.start-btn:hover:not(.disabled) {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.start-btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+}
+
+/* ══════════════════════════════════════════════
+   PANTALLA 3 — JUEGO
+══════════════════════════════════════════════ */
+.game-container {
+  width: 100%;
+  max-width: 560px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* HUD */
+.game-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: var(--radius);
+  padding: 12px 20px;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--p2);
+}
+
+.hud-left, .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 100px;
+}
+
+.hud-right { justify-content: flex-end; }
+
+.hud-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--pd);
+}
+
+.hud-center {
+  text-align: center;
+}
+
+.timer-display, .score-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3rem;
+  color: var(--pd);
+}
+
+.timer-icon, .score-icon {
+  font-size: 1.2rem;
+}
+
+#timer-display {
+  font-size: 1.5rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Área de operación */
+.operation-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.difficulty-badge {
+  background: var(--p);
+  color: white;
+  border-radius: 20px;
+  padding: 4px 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s;
+}
+
+.operation-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 36px 48px;
+  box-shadow: var(--shadow-md);
+  border: 3px solid var(--p2);
+  text-align: center;
+  min-width: 300px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.operation-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--p), var(--pbtn));
+}
+
+.operation-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  color: #1f2937;
+  letter-spacing: 2px;
+}
+
+/* Flash respuesta correcta */
+.correct-answer-flash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: #fee2e2;
+  border: 3px solid #ef4444;
+  border-radius: var(--radius);
+  padding: 16px 32px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.6rem;
+  color: #dc2626;
+  z-index: 100;
+  transition: transform 0.2s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.correct-answer-flash.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Área de input */
+.answer-area {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.answer-input {
+  width: 200px;
+  padding: 16px 20px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.6rem;
+  text-align: center;
+  border: 3px solid var(--p);
+  border-radius: var(--radius-sm);
+  outline: none;
+  color: #1f2937;
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
+  -moz-appearance: textfield;
+}
+
+.answer-input::-webkit-outer-spin-button,
+.answer-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.answer-input:focus {
+  border-color: var(--pd);
+  box-shadow: 0 0 0 4px rgba(168,85,247,0.15);
+}
+
+.answer-input.shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97);
+  border-color: #ef4444 !important;
+  background: #fff5f5;
+}
+
+.answer-input.correct-pulse {
+  animation: correctPulse 0.4s ease;
+  border-color: #22c55e !important;
+  background: #f0fdf4;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-3px); }
+  20%, 80% { transform: translateX(5px); }
+  30%, 50%, 70% { transform: translateX(-5px); }
+  40%, 60% { transform: translateX(5px); }
+}
+
+@keyframes correctPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.submit-btn {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--p), var(--pbtn));
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.submit-btn:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+}
+
+.submit-btn:active {
+  transform: scale(0.95);
+}
+
+/* Feedback popup */
+.feedback-popup {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.1s;
+}
+
+.feedback-popup.show-correct {
+  animation: popupCorrect 0.8s ease forwards;
+  color: #16a34a;
+}
+
+.feedback-popup.show-wrong {
+  animation: popupWrong 0.8s ease forwards;
+  color: #dc2626;
+}
+
+@keyframes popupCorrect {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80%  { opacity: 1; transform: translateX(-50%) translateY(-40px); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-50px); }
+}
+
+@keyframes popupWrong {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80%  { opacity: 1; transform: translateX(-50%) translateY(-30px); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-40px); }
+}
+
+/* Streak */
+.streak-area {
+  text-align: center;
+  min-height: 32px;
+}
+
+.streak {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--pd);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Timer urgencia */
+.timer-urgent {
+  color: #dc2626 !important;
+  animation: timerPulse 0.5s ease infinite alternate;
+}
+
+@keyframes timerPulse {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+/* ══════════════════════════════════════════════
+   PANTALLA 4 — RESULTADOS
+══════════════════════════════════════════════ */
+.results-container {
+  width: 100%;
+  max-width: 520px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.results-header {
+  margin-bottom: 8px;
+}
+
+.results-emoji { font-size: 4rem; }
+.results-avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--p);
+  margin-bottom: 8px;
+}
+
+.results-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: var(--pd);
+  margin-bottom: 4px;
+}
+
+.results-player-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3rem;
+  color: var(--p);
+  margin-bottom: 28px;
+}
+
+.results-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 20px 12px;
+  box-shadow: var(--shadow-sm);
+  border: 2px solid var(--p2);
+}
+
+.stat-value {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2.4rem;
+  color: var(--pd);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.results-message {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 28px;
+  background: var(--pcard);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+}
+
+.results-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.results-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(.34,1.56,.64,1);
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--p), var(--pbtn));
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.secondary-btn {
+  background: white;
+  color: var(--pd);
+  border: 2px solid var(--p);
+}
+
+.secondary-btn:hover {
+  background: var(--pcard);
+  transform: translateY(-2px);
+}
+
+/* Botón "¡Todas!" ocupa el ancho completo */
+.op-btn-all {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  gap: 12px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--pcard), white);
+  border-color: var(--p) !important;
+}
+
+.op-btn-all .op-icon { font-size: 1.4rem; }
+.op-btn-all .op-label { font-size: 1.05rem; }
+
+/* Botón historial */
+.history-btn {
+  background: white;
+  color: var(--pd);
+  border: 2px solid var(--p2);
+}
+
+.history-btn:hover {
+  background: var(--pcard);
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════
+   PANTALLA 5 — HISTORIAL
+══════════════════════════════════════════════ */
+.history-container {
+  width: 100%;
+  max-width: 560px;
+  padding: 32px 20px 40px;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.history-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  color: var(--pd);
+}
+
+.history-subtitle {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--pd);
+  margin: 20px 0 10px;
+}
+
+/* Récords */
+.history-records {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.record-card {
+  background: white;
+  border: 2px solid var(--p2);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.record-value {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.8rem;
+  color: var(--pd);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.record-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+/* Lista de partidas */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.history-list::-webkit-scrollbar { width: 6px; }
+.history-list::-webkit-scrollbar-track { background: transparent; }
+.history-list::-webkit-scrollbar-thumb { background: var(--p2); border-radius: 4px; }
+
+.history-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 2px solid var(--p2);
+  border-radius: var(--radius-xs);
+  padding: 10px 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s;
+}
+
+.history-row:hover { transform: translateX(3px); }
+
+.history-row-rank {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  color: var(--p);
+  min-width: 24px;
+  text-align: center;
+}
+
+.history-row-info {
+  flex: 1;
+}
+
+.history-row-op {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.history-row-date {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.history-row-score {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2rem;
+  color: var(--pd);
+}
+
+.history-row-acc {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6b7280;
+  min-width: 40px;
+  text-align: right;
+}
+
+.history-empty {
+  text-align: center;
+  padding: 24px;
+  color: #9ca3af;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* Medallas top 3 */
+.medal-gold   { color: #f59e0b; }
+.medal-silver { color: #94a3b8; }
+.medal-bronze { color: #b45309; }
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+  z-index: 9999;
+}
+
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .player-cards {
+    gap: 20px;
+  }
+  .player-card {
+    width: 180px;
+    padding: 24px 16px 20px;
+  }
+  .time-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .operation-card {
+    padding: 28px 24px;
+    min-width: auto;
+    width: 100%;
+  }
+  .operation-text {
+    font-size: 2rem;
+  }
+  .answer-input {
+    width: 160px;
+  }
+  .results-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
